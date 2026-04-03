@@ -18,9 +18,13 @@ const monitorSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    description: {
+      type: String,
+      trim: true,
+    },
     protocol: {
       type: String,
-      enum: ['http', 'ping', 'port'],
+      enum: ['http', 'https', 'ping', 'port', 'keyword'],
       required: true,
       index: true,
     },
@@ -30,11 +34,47 @@ const monitorSchema = new mongoose.Schema(
       default: 'pending',
       index: true,
     },
-    frequency: {
-      type: Number,
+    interval: {
+      type: String, // e.g., '30s', '1m', '5m'
       required: true,
-      min: 1, // minutes
-      default: 5,
+      default: '5m',
+    },
+    timeout: {
+      type: Number, // ms
+      required: true,
+      default: 30000,
+    },
+    retries: {
+      type: Number,
+      default: 3,
+    },
+    httpMethod: {
+      type: String,
+      enum: ['GET', 'POST', 'PUT', 'DELETE'],
+      default: 'GET',
+    },
+    portNumber: {
+      type: Number,
+    },
+    searchKeyword: {
+      type: String,
+    },
+    locations: {
+      type: [String],
+      required: true,
+      default: ['asian'],
+    },
+    alertTriggers: {
+      isDown: { type: Boolean, default: true },
+      slowResponse: { type: Boolean, default: false },
+      slowThreshold: { type: Number }, // ms
+      sslExpiry: { type: Boolean, default: false },
+      sslDays: { type: Number },
+    },
+    alertChannels: {
+      type: [String],
+      required: true,
+      default: ['email'],
     },
     lastCheck: {
       type: Date,

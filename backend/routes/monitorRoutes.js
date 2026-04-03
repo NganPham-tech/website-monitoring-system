@@ -11,4 +11,7 @@ router.use(authMiddleware);
 // GET /api/monitors - List of monitors with filters & search
 router.get('/', rateLimitMonitorList, monitorController.getMonitors);
 
+// POST /api/monitors - Create a new monitor
+router.post('/', monitorController.createMonitor);
+
 module.exports = router;

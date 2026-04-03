@@ -1,5 +1,5 @@
 const monitorService = require('../services/monitorService');
-const { monitorListSchema } = require('../schemas/monitorValidations');
+const { monitorListSchema, createMonitorSchema } = require('../schemas/monitorValidations');
 
 const monitorController = {
   /**
@@ -23,6 +23,25 @@ const monitorController = {
         limit: pagination.limit,
         pages: pagination.pages,
       },
+    });
+  },
+
+  /**
+   * Create a new monitor
+   * POST /api/monitors
+   */
+  createMonitor: async (req, res) => {
+    // 1. Validate body using Zod
+    const validatedData = createMonitorSchema.parse(req.body);
+
+    // 2. Call service to save to DB
+    const monitor = await monitorService.createMonitor(req.user.id, validatedData);
+
+    // 3. Respond
+    return res.status(201).json({
+      success: true,
+      message: 'Monitor đã được tạo thành công và đang bắt đầu giám sát.',
+      data: monitor,
     });
   },
 };
