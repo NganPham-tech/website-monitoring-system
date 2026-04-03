@@ -26,8 +26,26 @@ const userSchema = new mongoose.Schema(
     },
     providerId: {
       type: String,
-      // For SSO users (Google/Github ID)
       default: null,
+    },
+    company: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    plan: {
+      type: String,
+      enum: ['Miễn phí - 5 Monitors', 'Cơ bản - 50 Monitors', 'Nâng cao - 200 Monitors', 'free', 'pro', 'enterprise'],
+      default: 'Miễn phí - 5 Monitors',
+    },
+    role: {
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
+    isActive: {
+      type: Boolean,
+      default: true,
     },
   },
   {

@@ -1,5 +1,6 @@
 const authService = require('../services/authService');
 const { loginSchema } = require('../utils/validation');
+const { registerSchema } = require('../schemas/authValidations');
 
 /**
  * Common function to set cookie
@@ -86,7 +87,44 @@ const logout = (req, res) => {
   res.json({ success: true, message: 'Đăng xuất thành công' });
 };
 
+/**
+ * Controller Xử lý Đăng ký
+ */
+const register = async (req, res) => {
+  // Validate bằng Zod
+  const parsed = registerSchema.safeParse(req.body);
+  if (!parsed.success) {
+    // Trả về BadRequest cho FrontEnd thân thiện
+    return res.status(400).json({
+      success: false,
+      message: parsed.error.errors.map(e => e.message).join(', ')
+    });
+  }
+
+  const { name, email, password, company, plan } = parsed.data;
+
+  // Lỗi trùng email sẽ được throw từ Service và bắt bởi Error Handler
+  const { user, token } = await authService.registerUser({ name, email, password, company, plan });
+
+  // (Optional) Auto login: Set cookie tương tự login
+  setAuthCookie(res, token, false); // Không cần rememberMe lúc đky
+
+  res.status(201).json({
+    success: true,
+    message: 'Đăng ký tài khoản thành công',
+    data: {
+      id: user._id,
+      email: user.email,
+      name: user.name,
+      plan: user.plan,
+      // Có thể trả thêm token nếu UI cần (mặc dù lưu HttpOnly)
+      token
+    }
+  });
+};
+
 module.exports = {
+  register,
   login,
   ssoCallback,
   logout

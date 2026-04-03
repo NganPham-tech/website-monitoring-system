@@ -8,6 +8,9 @@ pnpm-debug.log*
 lerna-debug.log*
 
 node_modules
+.env
+.env.*
+!.env.example
 dist
 dist-ssr
 *.local
@@ -26,3 +29,7 @@ dist-ssr
 # Backend ignoring
 server/node_modules
 server/.env
+
+# Frontend specific ignoring
+frontend/node_modules
+frontend/.env

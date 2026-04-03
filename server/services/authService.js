@@ -57,9 +57,6 @@ const handleSSOLogin = async (profile, provider) => {
   if (user) {
     // Nếu user đã tồn tại nhưng đky qua provider khác hoặc local,
     // tùy rule hệ thống có thể cho phép merge hoặc báo lỗi.
-    // Ở đây ta đơn giản cập nhật lại provider info nếu nó giống.
-    // Hoặc nếu đang đăng nhập local mà thử gg -> báo lỗi.
-    // Để linh hoạt, tôi cho phép merge (hoặc gán providerId).
     if (!user.providerId) {
       user.providerId = profile.id;
       user.authProvider = provider;
@@ -81,7 +78,44 @@ const handleSSOLogin = async (profile, provider) => {
   return { user, token };
 };
 
+/**
+ * Xử lý Đăng ký tài khoản
+ */
+const registerUser = async ({ name, email, password, company, plan }) => {
+  // 1. Kiểm tra lặp email
+  const existingUser = await User.findOne({ email });
+  if (existingUser) {
+    const error = new Error('Email này đã được sử dụng');
+    error.statusCode = 409;
+    throw error;
+  }
+
+  // 2. Mã hoá mật khẩu
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+
+  // 3. Tạo User
+  const newUser = await User.create({
+    name,
+    email,
+    password: hashedPassword,
+    company: company || '',
+    plan: plan || 'Miễn phí - 5 Monitors',
+    authProvider: 'local'
+  });
+
+  // 4. Lược bỏ password trước khi trả về
+  const userResponse = newUser.toObject();
+  delete userResponse.password;
+
+  // (Optional theo yêu cầu: Autologin) Thêm token luôn.
+  const token = generateToken(userResponse._id, false);
+
+  return { user: userResponse, token };
+};
+
 module.exports = {
+  registerUser,
   loginTraditional,
   handleSSOLogin,
   generateToken,

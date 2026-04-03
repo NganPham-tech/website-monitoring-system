@@ -1,9 +1,12 @@
 const express = require('express');
 const passport = require('passport');
 const authController = require('../controllers/authController');
-const rateLimitLogin = require('../middlewares/rateLimiter');
+const { rateLimitLogin, rateLimitRegister } = require('../middlewares/rateLimiter');
 
 const router = express.Router();
+
+// ================== Local Registration ==================
+router.post('/register', rateLimitRegister, authController.register);
 
 // ================== Local Login ==================
 // Add rate limiter just on local login brute force attempt

@@ -7,8 +7,14 @@ const errorHandler = (err, req, res, next) => {
 
   // Handling Mongoose duplication validation
   if (err.name === 'MongoServerError' && err.code === 11000) {
+    statusCode = 409;
+    message = 'Email này đã được sử dụng';
+  }
+
+  // Zod Validation Error
+  if (err.name === 'ZodError') {
     statusCode = 400;
-    message = 'Email đã được sử dụng';
+    message = err.errors.map(e => e.message).join(', ');
   }
 
   // Token lỗi

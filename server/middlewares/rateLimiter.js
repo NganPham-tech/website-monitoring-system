@@ -12,4 +12,18 @@ const rateLimitLogin = rateLimit({
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
 
-module.exports = rateLimitLogin;
+const rateLimitRegister = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 giờ
+  max: 3, // Tối đa 3 request từ 1 IP trong vòng 1 giờ
+  message: {
+    success: false,
+    message: 'Quá nhiều tài khoản được đăng ký từ IP của bạn, vui lòng thử lại sau 1 giờ.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+module.exports = {
+  rateLimitLogin,
+  rateLimitRegister
+};
