@@ -16,6 +16,8 @@ const errorHandler = (err, req, res, next) => {
     statusCode = 400;
     message = err.errors.map(e => e.message).join(', ');
   }
+
+  // Token lỗi
   if (err.name === 'JsonWebTokenError') {
     statusCode = 401;
     message = 'Phiên đăng nhập không hợp lệ';

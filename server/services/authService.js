@@ -57,9 +57,6 @@ const handleSSOLogin = async (profile, provider) => {
   if (user) {
     // Nếu user đã tồn tại nhưng đky qua provider khác hoặc local,
     // tùy rule hệ thống có thể cho phép merge hoặc báo lỗi.
-    // Ở đây ta đơn giản cập nhật lại provider info nếu nó giống.
-    // Hoặc nếu đang đăng nhập local mà thử gg -> báo lỗi.
-    // Để linh hoạt, tôi cho phép merge (hoặc gán providerId).
     if (!user.providerId) {
       user.providerId = profile.id;
       user.authProvider = provider;

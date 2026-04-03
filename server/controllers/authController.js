@@ -91,7 +91,7 @@ const logout = (req, res) => {
  * Controller Xử lý Đăng ký
  */
 const register = async (req, res) => {
-  // Validate bằng Zod (quăng lỗi nếu fail, nhờ Express 5 truyền xuống Error Handler, nhưng zod parse trả về lỗi thô nếu không cẩn thận. Ta dùng safeParse hoặc parse)
+  // Validate bằng Zod
   const parsed = registerSchema.safeParse(req.body);
   if (!parsed.success) {
     // Trả về BadRequest cho FrontEnd thân thiện

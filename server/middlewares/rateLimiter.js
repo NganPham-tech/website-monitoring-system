@@ -11,6 +11,7 @@ const rateLimitLogin = rateLimit({
   standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
   legacyHeaders: false, // Disable the `X-RateLimit-*` headers
 });
+
 const rateLimitRegister = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 giờ
   max: 3, // Tối đa 3 request từ 1 IP trong vòng 1 giờ
