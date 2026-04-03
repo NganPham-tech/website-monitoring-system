@@ -1,12 +1,14 @@
 require('dotenv').config();
+require('express-async-errors');
 
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const passport = require('./config/passport');
-const errorHandler = require('./middlewares/errorHandler');
-const authRoutes = require('./routes/authRoutes');
+const passport = require('../backend/config/passport');
+const errorHandler = require('../backend/middlewares/errorHandler');
+const authRoutes = require('../backend/routes/authRoutes');
+const monitorRoutes = require('../backend/routes/monitorRoutes');
 
 const app = express();
 
@@ -29,6 +31,7 @@ app.use(passport.initialize());
 
 // ================== ROUTES DEFINITION ==================
 app.use('/api/auth', authRoutes);
+app.use('/api/monitors', monitorRoutes);
 
 // Fallback 404 Route
 app.use((req, res, next) => {

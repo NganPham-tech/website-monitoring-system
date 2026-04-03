@@ -60,7 +60,7 @@ const Login = () => {
     try {
       await login(formData.email, formData.password, formData.rememberMe);
       toast.success('Đăng nhập thành công!');
-      navigate('/dashboard');
+      navigate('/monitors');
     } catch (error) {
       const message = error.response?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại';
       toast.error(message);
