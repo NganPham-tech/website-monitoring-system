@@ -28,7 +28,9 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
+    // Only redirect to login if we're not already on the login page
+    // and if the error is a 401 Unauthorized
+    if (error.response && error.response.status === 401 && !window.location.pathname.includes('/login')) {
       // Clear local storage and redirect to login if unauthorized
       localStorage.removeItem('user');
       window.location.href = '/login';

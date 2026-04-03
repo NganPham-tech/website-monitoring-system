@@ -5,10 +5,10 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const cookieParser = require('cookie-parser');
-const passport = require('../backend/config/passport');
-const errorHandler = require('../backend/middlewares/errorHandler');
-const authRoutes = require('../backend/routes/authRoutes');
-const monitorRoutes = require('../backend/routes/monitorRoutes');
+const passport = require('./config/passport');
+const errorHandler = require('./middlewares/errorHandler');
+const authRoutes = require('./routes/authRoutes');
+const monitorRoutes = require('./routes/monitorRoutes');
 
 const app = express();
 

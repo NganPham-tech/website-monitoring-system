@@ -1,5 +1,5 @@
 const express = require('express');
-const monitorController = require('../../backend/controllers/monitorController');
+const monitorController = require('../controllers/monitorController');
 const authMiddleware = require('../middlewares/authMiddleware');
 const { rateLimitMonitorList } = require('../middlewares/rateLimiter');
 
