@@ -12,6 +12,8 @@ import Home from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import IncidentDetail from './pages/IncidentDetail';
 import ProfilePage from './pages/ProfilePage';
+import AdminDashboard from './pages/AdminDashboard';
+import { AdminRouteGuard } from './components/admin';
 function App() {
   return (
     <AuthProvider>
@@ -40,6 +42,11 @@ function App() {
           <Route path="/incidents/:id" element={<IncidentDetail />} />
           <Route path="/alerts" element={<div className="p-10 text-center text-4xl font-bold text-[#00796B]">Trang Cảnh báo</div>} />
           <Route path="/settings" element={<ProfilePage />} />
+          <Route path="/admin" element={
+            <AdminRouteGuard>
+              <AdminDashboard />
+            </AdminRouteGuard>
+          } />
         </Route>
         
         <Route path="*" element={<Navigate to="/login" replace />} />
