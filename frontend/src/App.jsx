@@ -17,6 +17,7 @@ import AdminSettings from './pages/AdminSettings';
 import StatusPage from './pages/StatusPage';
 import { AdminRouteGuard } from './components/admin';
 import AnalyticsReport from './pages/AnalyticsReport';
+import TeamPage from './pages/TeamPage';
 function App() {
   return (
     <AuthProvider>
@@ -46,6 +47,7 @@ function App() {
           <Route path="/incidents/:id" element={<IncidentDetail />} />
           <Route path="/alerts" element={<div className="p-10 text-center text-4xl font-bold text-[#00796B]">Trang Cảnh báo</div>} />
           <Route path="/reports" element={<AnalyticsReport />} />
+          <Route path="/team" element={<TeamPage />} />
           <Route path="/settings" element={<ProfilePage />} />
           <Route path="/admin" element={
             <AdminRouteGuard>

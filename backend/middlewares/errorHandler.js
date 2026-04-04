@@ -11,6 +11,17 @@ const errorHandler = (err, req, res, next) => {
     message = 'Email này đã được sử dụng';
   }
 
+  // Mongoose CastError (invalid ObjectId)
+  if (err.name === 'CastError' && err.kind === 'ObjectId') {
+    statusCode = 400;
+    message = 'ID không hợp lệ';
+  }
+
+  // Business logic errors with explicit statusCode
+  if (err.statusCode) {
+    statusCode = err.statusCode;
+  }
+
   // Zod Validation Error
   if (err.name === 'ZodError') {
     statusCode = 400;
