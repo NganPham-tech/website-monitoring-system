@@ -19,6 +19,7 @@ import { AdminRouteGuard } from './components/admin';
 import BusinessDashboard from './pages/admin/BusinessDashboard';
 import AnalyticsReport from './pages/AnalyticsReport';
 import TeamPage from './pages/TeamPage';
+import InfrastructureDashboard from './pages/InfrastructureDashboard';
 function App() {
   return (
     <AuthProvider>
@@ -51,6 +52,7 @@ function App() {
           <Route path="/alerts" element={<div className="p-10 text-center text-4xl font-bold text-[#00796B]">Trang Cảnh báo</div>} />
           <Route path="/reports" element={<AnalyticsReport />} />
           <Route path="/team" element={<TeamPage />} />
+          <Route path="/infrastructure" element={<InfrastructureDashboard />} />
           <Route path="/settings" element={<ProfilePage />} />
           <Route path="/admin" element={
             <AdminRouteGuard>
