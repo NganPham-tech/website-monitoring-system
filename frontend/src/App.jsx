@@ -14,12 +14,14 @@ import IncidentDetail from './pages/IncidentDetail';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminSettings from './pages/AdminSettings';
+import StatusPage from './pages/StatusPage';
 import { AdminRouteGuard } from './components/admin';
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/status" element={<StatusPage />} />
         
         <Route path="/login" element={
           <AuthLayout>
