@@ -9,6 +9,7 @@ import MonitorListPage from './pages/MonitorListPage';
 import AddMonitor from './pages/AddMonitor';
 import MonitorDetail from './pages/MonitorDetail';
 import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
 function App() {
   return (
     <AuthProvider>
@@ -33,7 +34,7 @@ function App() {
           <Route path="/monitors/add" element={<AddMonitor />} />
           <Route path="/monitors/:id" element={<MonitorDetail />} />
           {/* Các trang khác của Dashboard có thể thêm vào đây */}
-          <Route path="/dashboard" element={<Navigate to="/monitors" replace />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/alerts" element={<div className="p-10 text-center text-4xl font-bold text-[#00796B]">Trang Cảnh báo</div>} />
         </Route>
         
