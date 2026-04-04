@@ -16,11 +16,12 @@ const incidentRoutes = require('./routes/incidentRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const apiKeyRoutes = require('./routes/apiKeyRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const reportRoutes = require('./routes/reportRoutes');
 
 const app = express();
 
 // ================== SECURITY MIDDLEWARES ==================
-app.use(helmet()); 
+app.use(helmet());
 app.use(
   cors({
     origin: process.env.FRONTEND_URL || 'http://localhost:5173',
@@ -46,6 +47,7 @@ app.use('/api/incidents', incidentRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/api-keys', apiKeyRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/reports', reportRoutes);
 
 // Fallback 404 Route
 app.use((req, res, next) => {
