@@ -13,6 +13,7 @@ import Dashboard from './pages/Dashboard';
 import IncidentDetail from './pages/IncidentDetail';
 import ProfilePage from './pages/ProfilePage';
 import AdminDashboard from './pages/AdminDashboard';
+import AdminSettings from './pages/AdminSettings';
 import { AdminRouteGuard } from './components/admin';
 function App() {
   return (
@@ -45,6 +46,11 @@ function App() {
           <Route path="/admin" element={
             <AdminRouteGuard>
               <AdminDashboard />
+            </AdminRouteGuard>
+          } />
+          <Route path="/admin/settings" element={
+            <AdminRouteGuard>
+              <AdminSettings />
             </AdminRouteGuard>
           } />
         </Route>
