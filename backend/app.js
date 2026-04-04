@@ -10,6 +10,7 @@ const errorHandler = require('./middlewares/errorHandler');
 const authRoutes = require('./routes/authRoutes');
 const monitorRoutes = require('./routes/monitorRoutes');
 const monitorDetailRoutes = require('./routes/monitorDetailRoutes');
+const publicRoutes = require('./routes/publicRoutes');
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use(cookieParser()); // Để server có thể đọc parse cookies từ bro
 app.use(passport.initialize());
 
 // ================== ROUTES DEFINITION ==================
+app.use('/api/public', publicRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/monitors', monitorRoutes);
 app.use('/api/monitors/:id', monitorDetailRoutes);
