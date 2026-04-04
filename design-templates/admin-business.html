@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khách hàng & Doanh thu - Uptime Admin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f2f5;
+            color: #333;
+        }
+
+        /* --- LAYOUT CƠ BẢN --- */
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: #1a202c;
+            color: white;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            border-right: 4px solid #4fd1c5;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            color: #4fd1c5;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-menu {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.9rem 1rem;
+            color: #a0aec0;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background: #2d3748;
+            color: white;
+        }
+
+        .nav-link.active {
+            background: #4fd1c5;
+            color: #1a202c;
+            font-weight: bold;
+        }
+
+        .divider {
+            height: 1px;
+            background: #4a5568;
+            margin: 1.5rem 0;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 1.8rem;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .admin-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: #4fd1c5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a202c;
+            font-weight: bold;
+        }
+
+        /* --- TABS SYSTEM --- */
+        .tabs-header {
+            display: flex;
+            gap: 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            margin-bottom: 1.5rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #718096;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tab-btn:hover {
+            color: #4fd1c5;
+        }
+
+        .tab-btn.active {
+            color: #2c7a7b;
+            border-bottom-color: #4fd1c5;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- BẢNG DỮ LIỆU CHUNG (TABLES) --- */
+        .panel {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.02);
+            overflow: hidden;
+        }
+
+        .toolbar {
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #edf2f7;
+            background: #f8fafc;
+        }
+
+        .search-box input {
+            padding: 0.6rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            width: 300px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #4fd1c5;
+            box-shadow: 0 0 0 3px rgba(79, 209, 197, 0.2);
+        }
+
+        .filter-group select {
+            padding: 0.6rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            background: white;
+            font-size: 0.95rem;
+            cursor: pointer;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th, .data-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .data-table th {
+            background: #f8fafc;
+            color: #4a5568;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .data-table tr:hover {
+            background: #f7fafc;
+        }
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar-small {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #4a5568;
+        }
+
+        /* --- BADGES (TRẠNG THÁI) --- */
+        .badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-success { background: #c6f6d5; color: #22543d; }
+        .badge-warning { background: #feebc8; color: #7b341e; }
+        .badge-danger { background: #fed7d7; color: #742a2a; }
+        .badge-neutral { background: #e2e8f0; color: #4a5568; }
+
+        .badge-pro { background: #ebf4ff; color: #2b6cb0; border: 1px solid #bee3f8; }
+        .badge-ent { background: #faf5ff; color: #553c9a; border: 1px solid #e9d8fd; }
+
+        /* --- ACTION BUTTONS --- */
+        .action-btn {
+            background: white;
+            border: 1px solid #e2e8f0;
+            color: #4a5568;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            border-color: #cbd5e0;
+            background: #edf2f7;
+        }
+
+        .btn-impersonate { color: #2b6cb0; }
+        .btn-impersonate:hover { border-color: #3182ce; background: #ebf8ff; }
+        
+        .btn-ban { color: #e53e3e; }
+        .btn-ban:hover { border-color: #e53e3e; background: #fff5f5; }
+
+        /* --- GRID GÓI CƯỚC (PLANS) --- */
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 1.5rem;
+        }
+
+        .plan-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 2rem;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .plan-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #edf2f7;
+        }
+
+        .plan-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #2c7a7b;
+        }
+
+        .plan-period {
+            font-size: 1rem;
+            color: #718096;
+            font-weight: normal;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #4a5568;
+        }
+
+        .btn-edit-plan {
+            width: 100%;
+            padding: 0.8rem;
+            background: #f7fafc;
+            border: 1px solid #cbd5e0;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #2d3748;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-edit-plan:hover {
+            background: #edf2f7;
+            border-color: #a0aec0;
+        }
+
+        .tech-id {
+            font-family: monospace;
+            color: #a0aec0;
+            font-size: 0.8rem;
+            display: block;
+            margin-top: 0.2rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="logo">
+                <span>🛡️</span>
+                <span>Uptime Admin</span>
+            </div>
+            <nav>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="admin-dashboard.html" class="nav-link">
+                            <span>📊</span>
+                            <span>Tổng quan & Hạ tầng</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin-business.html" class="nav-link active">
+                            <span>👥</span>
+                            <span>Khách hàng & Doanh thu</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="admin-settings.html" class="nav-link">
+                            <span>⚙️</span>
+                            <span>Cấu hình Hệ thống</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="divider"></div>
+                <ul class="nav-menu">
+                    <li class="nav-item">
+                        <a href="dashboard.html" class="nav-link" style="color: #fc8181;">
+                            <span>🔙</span>
+                            <span>Thoát về User Mode</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="header">
+                <h1>Quản lý Khách hàng & Doanh thu</h1>
+                <div class="admin-profile">
+                    <div style="text-align: right;">
+                        <div style="font-weight: 600; font-size: 0.95rem; color: #2d3748;">Super Admin</div>
+                        <div style="font-size: 0.8rem; color: #718096;">admin@uptime.com</div>
+                    </div>
+                    <div class="admin-avatar">A</div>
+                </div>
+            </div>
+
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="switchTab('tab-users', this)">👥 Danh sách Users</button>
+                <button class="tab-btn" onclick="switchTab('tab-payments', this)">💳 Lịch sử Giao dịch</button>
+                <button class="tab-btn" onclick="switchTab('tab-plans', this)">🏷️ Cấu hình Gói cước</button>
+            </div>
+
+            <div id="tab-users" class="tab-content active">
+                <div class="panel">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <input type="text" placeholder="Tìm kiếm theo Tên, Email hoặc Keycloak ID...">
+                        </div>
+                        <div class="filter-group">
+                            <select>
+                                <option value="all">Tất cả gói cước</option>
+                                <option value="free">Gói Free</option>
+                                <option value="pro">Gói PRO</option>
+                                <option value="enterprise">Gói Enterprise</option>
+                            </select>
+                            <select>
+                                <option value="active">Trạng thái: Active</option>
+                                <option value="banned">Trạng thái: Banned</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Người dùng</th>
+                                <th>Gói cước</th>
+                                <th>Monitors</th>
+                                <th>Trạng thái</th>
+                                <th>Ngày tham gia</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="user-avatar-small" style="background: #e9d8fd; color: #553c9a;">Q</div>
+                                        <div>
+                                            <div style="font-weight: 600; color: #2d3748;">Nguyen Nhat Quang</div>
+                                            <div style="font-size: 0.85rem; color: #718096;">quang@example.com</div>
+                                            <span class="tech-id">KC_ID: 8f7a-4b92-9c1d</span>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-ent">Enterprise</span></td>
+                                <td><span style="font-weight: 600;">45</span> / 500</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>28/01/2026</td>
+                                <td>
+                                    <button class="action-btn btn-impersonate">👁️ Mạo danh</button>
+                                    <button class="action-btn btn-ban">Khóa</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="user-avatar-small">A</div>
+                                        <div>
+                                            <div style="font-weight: 600; color: #2d3748;">Alice Smith</div>
+                                            <div style="font-size: 0.85rem; color: #718096;">alice@startup.io</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-pro">PRO</span></td>
+                                <td><span style="font-weight: 600;">12</span> / 50</td>
+                                <td><span class="badge badge-success">Active</span></td>
+                                <td>15/02/2026</td>
+                                <td>
+                                    <button class="action-btn btn-impersonate">👁️ Mạo danh</button>
+                                    <button class="action-btn btn-ban">Khóa</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="user-avatar-small" style="background: #fed7d7; color: #742a2a;">B</div>
+                                        <div>
+                                            <div style="font-weight: 600; color: #2d3748;">Bob Spammer</div>
+                                            <div style="font-size: 0.85rem; color: #718096;">bob@spam.com</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span class="badge badge-neutral">Free</span></td>
+                                <td><span style="font-weight: 600;">5</span> / 5</td>
+                                <td><span class="badge badge-danger">Banned</span></td>
+                                <td>22/03/2026</td>
+                                <td>
+                                    <button class="action-btn" style="color: #38a169;">Mở khóa</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-payments" class="tab-content">
+                <div class="panel">
+                    <div class="toolbar">
+                        <div class="search-box">
+                            <input type="text" placeholder="Tìm kiếm theo Mã hóa đơn (Invoice ID) hoặc Email...">
+                        </div>
+                        <div class="filter-group">
+                            <select>
+                                <option value="all">Tất cả trạng thái</option>
+                                <option value="success">Thành công</option>
+                                <option value="failed">Thất bại</option>
+                                <option value="refunded">Đã hoàn tiền</option>
+                            </select>
+                        </div>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Mã Giao Dịch</th>
+                                <th>Khách hàng</th>
+                                <th>Số tiền</th>
+                                <th>Nội dung</th>
+                                <th>Thời gian</th>
+                                <th>Trạng thái</th>
+                                <th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <span style="font-weight: 600; color: #2b6cb0;">INV-2026-8891</span>
+                                    <span class="tech-id">pi_3MtwB... (Stripe)</span>
+                                </td>
+                                <td>quang@example.com</td>
+                                <td style="font-weight: bold; color: #2d3748;">$49.00</td>
+                                <td>Gia hạn Enterprise (Tháng 3)</td>
+                                <td>Hôm nay, 14:30</td>
+                                <td><span class="badge badge-success">Thành công</span></td>
+                                <td>
+                                    <button class="action-btn">Hóa đơn PDF</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-weight: 600; color: #2b6cb0;">INV-2026-8890</span>
+                                </td>
+                                <td>alice@startup.io</td>
+                                <td style="font-weight: bold; color: #2d3748;">$12.00</td>
+                                <td>Nâng cấp lên PRO</td>
+                                <td>Hôm qua, 09:15</td>
+                                <td><span class="badge badge-success">Thành công</span></td>
+                                <td>
+                                    <button class="action-btn btn-ban">Hoàn tiền (Refund)</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span style="font-weight: 600; color: #2b6cb0;">INV-2026-8889</span>
+                                </td>
+                                <td>charlie@dev.net</td>
+                                <td style="font-weight: bold; color: #2d3748;">$12.00</td>
+                                <td>Gia hạn PRO</td>
+                                <td>27/03/2026</td>
+                                <td><span class="badge badge-danger">Thất bại</span><br><span style="font-size:0.8rem; color:#e53e3e;">Lỗi: Thẻ bị từ chối</span></td>
+                                <td>
+                                    <button class="action-btn">Thử lại</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="tab-plans" class="tab-content">
+                <div class="panel" style="background: transparent; box-shadow: none;">
+                    <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+                        <button style="padding: 0.6rem 1.2rem; background: #4fd1c5; color: white; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">
+                            + Tạo Gói cước Mới
+                        </button>
+                    </div>
+                    <div class="plans-grid">
+                        <div class="plan-card">
+                            <div class="plan-header">
+                                <div class="plan-name">Gói Free</div>
+                                <div class="plan-price">$0<span class="plan-period">/tháng</span></div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✔️ <strong>Max Monitors:</strong> 5</li>
+                                <li>✔️ <strong>Chu kỳ check:</strong> 5 phút</li>
+                                <li>✔️ <strong>Alert Channels:</strong> Email</li>
+                                <li>❌ <strong>Status Page:</strong> Không</li>
+                                <li>❌ <strong>Team Members:</strong> 1</li>
+                            </ul>
+                            <button class="btn-edit-plan">Chỉnh sửa giới hạn</button>
+                        </div>
+
+                        <div class="plan-card" style="border: 2px solid #4fd1c5; box-shadow: 0 4px 20px rgba(79, 209, 197, 0.15);">
+                            <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #4fd1c5; color: white; padding: 2px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold;">PHỔ BIẾN NHẤT</div>
+                            <div class="plan-header">
+                                <div class="plan-name">Gói PRO</div>
+                                <div class="plan-price">$12<span class="plan-period">/tháng</span></div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✔️ <strong>Max Monitors:</strong> 50</li>
+                                <li>✔️ <strong>Chu kỳ check:</strong> 1 phút</li>
+                                <li>✔️ <strong>Alert Channels:</strong> Email, Telegram, Discord</li>
+                                <li>✔️ <strong>Status Page:</strong> 1 trang</li>
+                                <li>✔️ <strong>Team Members:</strong> 5</li>
+                            </ul>
+                            <button class="btn-edit-plan">Chỉnh sửa giới hạn & Giá</button>
+                        </div>
+
+                        <div class="plan-card">
+                            <div class="plan-header">
+                                <div class="plan-name">Gói Enterprise</div>
+                                <div class="plan-price">$49<span class="plan-period">/tháng</span></div>
+                            </div>
+                            <ul class="plan-features">
+                                <li>✔️ <strong>Max Monitors:</strong> 500</li>
+                                <li>✔️ <strong>Chu kỳ check:</strong> 30 giây</li>
+                                <li>✔️ <strong>Alert Channels:</strong> Tùy chọn + Webhook + SMS</li>
+                                <li>✔️ <strong>Status Page:</strong> Không giới hạn</li>
+                                <li>✔️ <strong>Team Members:</strong> Không giới hạn</li>
+                            </ul>
+                            <button class="btn-edit-plan">Chỉnh sửa giới hạn & Giá</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        function switchTab(tabId, btnElement) {
+            // 1. Tắt active tất cả các tab content
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // 2. Tắt active tất cả các tab buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+
+            // 3. Bật active tab được chọn
+            document.getElementById(tabId).classList.add('active');
+            btnElement.classList.add('active');
+        }
+    </script>
+</body>
+
+</html>

@@ -5,6 +5,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const adminMiddleware = require('../middlewares/adminMiddleware');
 const settingsController = require('../controllers/settingsController');
 const announcementController = require('../controllers/announcementController');
+const businessRoutes = require('./businessRoutes');
 
 // Shield all routes underneath with verification and admin check
 router.use(authMiddleware);
@@ -16,6 +17,9 @@ router.get('/stats', adminController.getStats);
 // User Management
 router.get('/users', adminController.getUsers);
 router.put('/users/:id', adminController.updateUser); // using PUT (or PATCH)
+
+// Bunsiness & Revenue Management (New)
+router.use('/business', businessRoutes);
 
 // System Configuration & Integrations (Updated)
 router.get('/settings/integrations', settingsController.getIntegrations);
