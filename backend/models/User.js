@@ -2,10 +2,39 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
-    name: {
+    firstName: {
       type: String,
       required: true,
       trim: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    phone: {
+      type: String,
+      trim: true,
+      default: '',
+    },
+    timezone: {
+      type: String,
+      default: 'Asia/Ho_Chi_Minh',
+    },
+    preferences: {
+      emailAlerts: { type: Boolean, default: true },
+      telegramAlerts: { type: Boolean, default: false },
+      weeklyReport: { type: Boolean, default: true },
+      monthlyReport: { type: Boolean, default: false },
+      maintenanceAlerts: { type: Boolean, default: true },
+    },
+    is2FAEnabled: {
+      type: Boolean,
+      default: false,
+    },
+    twoFactorSecret: {
+      type: String,
+      select: false,
     },
     email: {
       type: String,
