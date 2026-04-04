@@ -13,25 +13,25 @@
 const mongoose = require('mongoose');
 
 const organizationSchema = new mongoose.Schema(
-  {
-    /** Tên hiển thị của team/tổ chức */
-    name: {
-      type: String,
-      required: true,
-      trim: true,
-      maxlength: 100,
-    },
+    {
+        /** Tên hiển thị của team/tổ chức */
+        name: {
+            type: String,
+            required: true,
+            trim: true,
+            maxlength: 100,
+        },
 
-    /** User là người tạo và sở hữu tổ chức này */
-    ownerId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
+        /** User là người tạo và sở hữu tổ chức này */
+        ownerId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
     },
-  },
-  {
-    timestamps: true, // createdAt, updatedAt
-  }
+    {
+        timestamps: true, // createdAt, updatedAt
+    }
 );
 
 module.exports = mongoose.model('Organization', organizationSchema);

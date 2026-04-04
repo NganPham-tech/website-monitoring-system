@@ -19,35 +19,35 @@ const mongoose = require('mongoose');
 const TEAM_ROLES = ['owner', 'admin', 'member'];
 
 const organizationMemberSchema = new mongoose.Schema(
-  {
-    organizationId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Organization',
-      required: true,
-    },
+    {
+        organizationId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Organization',
+            required: true,
+        },
 
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
 
-    role: {
-      type: String,
-      enum: TEAM_ROLES,
-      default: 'member',
-    },
+        role: {
+            type: String,
+            enum: TEAM_ROLES,
+            default: 'member',
+        },
 
-    /** Thời điểm chính thức gia nhập (khi invite được chấp nhận, hoặc ngay lập tức với owner) */
-    joinedAt: {
-      type: Date,
-      default: Date.now,
+        /** Thời điểm chính thức gia nhập (khi invite được chấp nhận, hoặc ngay lập tức với owner) */
+        joinedAt: {
+            type: Date,
+            default: Date.now,
+        },
     },
-  },
-  {
-    // Không dùng timestamps mongoose vì đã có joinedAt
-    timestamps: false,
-  }
+    {
+        // Không dùng timestamps mongoose vì đã có joinedAt
+        timestamps: false,
+    }
 );
 
 // ─── Indexes ──────────────────────────────────────────────────────────────────
