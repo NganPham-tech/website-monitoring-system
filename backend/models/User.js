@@ -62,6 +62,10 @@ const userSchema = new mongoose.Schema(
       trim: true,
       default: '',
     },
+    stripeCustomerId: {
+      type: String,
+      default: null,
+    },
     plan: {
       type: String,
       enum: ['Miễn phí - 5 Monitors', 'Cơ bản - 50 Monitors', 'Nâng cao - 200 Monitors', 'free', 'pro', 'enterprise'],
