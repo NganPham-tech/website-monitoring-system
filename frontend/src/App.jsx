@@ -16,6 +16,7 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminSettings from './pages/AdminSettings';
 import StatusPage from './pages/StatusPage';
 import { AdminRouteGuard } from './components/admin';
+import BusinessDashboard from './pages/admin/BusinessDashboard';
 import AnalyticsReport from './pages/AnalyticsReport';
 import TeamPage from './pages/TeamPage';
 function App() {
@@ -36,6 +37,8 @@ function App() {
             <Register />
           </AuthLayout>
         } />
+
+        <Route path="/admin/business" element={<BusinessDashboard />} />
 
         {/* Group Dashboard Routes with Shared Sidebar Layout */}
         <Route element={<DashboardLayout />}>
