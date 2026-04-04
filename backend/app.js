@@ -12,6 +12,7 @@ const monitorRoutes = require('./routes/monitorRoutes');
 const monitorDetailRoutes = require('./routes/monitorDetailRoutes');
 const publicRoutes = require('./routes/publicRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
+const incidentRoutes = require('./routes/incidentRoutes');
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/monitors', monitorRoutes);
 app.use('/api/monitors/:id', monitorDetailRoutes);
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/incidents', incidentRoutes);
 
 // Fallback 404 Route
 app.use((req, res, next) => {
