@@ -18,6 +18,7 @@ const apiKeyRoutes = require('./routes/apiKeyRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const reportRoutes = require('./routes/reportRoutes');
 const teamRoutes = require('./routes/teamRoutes');
+const infraRoutes = require('./routes/infraRoutes');
 
 const app = express();
 
@@ -50,6 +51,7 @@ app.use('/api/api-keys', apiKeyRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/team', teamRoutes);
+app.use('/api/infrastructure', infraRoutes);
 
 // Fallback 404 Route
 app.use((req, res, next) => {
