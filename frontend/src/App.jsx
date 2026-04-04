@@ -8,9 +8,7 @@ import Login from './components/auth/Login';
 import MonitorListPage from './pages/MonitorListPage';
 import AddMonitor from './pages/AddMonitor';
 import MonitorDetail from './pages/MonitorDetail';
-
-const Home = () => <div className="p-10 text-center"><h1 className="text-2xl font-bold">Trang Chủ (Mẫu)</h1><a href="/login" className="text-blue-500 hover:underline">Đăng nhập</a></div>;
-
+import Home from './pages/Home';
 function App() {
   return (
     <AuthProvider>
