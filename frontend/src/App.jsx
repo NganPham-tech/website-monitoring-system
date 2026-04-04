@@ -16,25 +16,26 @@ import AdminDashboard from './pages/AdminDashboard';
 import AdminSettings from './pages/AdminSettings';
 import StatusPage from './pages/StatusPage';
 import { AdminRouteGuard } from './components/admin';
+import AnalyticsReport from './pages/AnalyticsReport';
 function App() {
   return (
     <AuthProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/status" element={<StatusPage />} />
-        
+
         <Route path="/login" element={
           <AuthLayout>
             <Login />
           </AuthLayout>
         } />
-        
+
         <Route path="/register" element={
           <AuthLayout>
             <Register />
           </AuthLayout>
         } />
-        
+
         {/* Group Dashboard Routes with Shared Sidebar Layout */}
         <Route element={<DashboardLayout />}>
           <Route path="/monitors" element={<MonitorListPage />} />
@@ -44,6 +45,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/incidents/:id" element={<IncidentDetail />} />
           <Route path="/alerts" element={<div className="p-10 text-center text-4xl font-bold text-[#00796B]">Trang Cảnh báo</div>} />
+          <Route path="/reports" element={<AnalyticsReport />} />
           <Route path="/settings" element={<ProfilePage />} />
           <Route path="/admin" element={
             <AdminRouteGuard>
@@ -56,7 +58,7 @@ function App() {
             </AdminRouteGuard>
           } />
         </Route>
-        
+
         <Route path="*" element={<Navigate to="/login" replace />} />
       </Routes>
     </AuthProvider>
