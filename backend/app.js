@@ -15,6 +15,7 @@ const dashboardRoutes = require('./routes/dashboardRoutes');
 const incidentRoutes = require('./routes/incidentRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const apiKeyRoutes = require('./routes/apiKeyRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -44,6 +45,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/incidents', incidentRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/api-keys', apiKeyRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Fallback 404 Route
 app.use((req, res, next) => {
