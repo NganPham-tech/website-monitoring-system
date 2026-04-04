@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Loader2, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
@@ -18,6 +18,18 @@ const Login = () => {
 
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  // Handle SSO token from URL
+  React.useEffect(() => {
+    const token = searchParams.get('token');
+    if (token) {
+      localStorage.setItem('token', token);
+      // In real app, you might want to fetch user profile here
+      toast.success('Đăng nhập SSO thành công!');
+      navigate('/monitors');
+    }
+  }, [searchParams, navigate]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -60,7 +72,7 @@ const Login = () => {
     try {
       await login(formData.email, formData.password, formData.rememberMe);
       toast.success('Đăng nhập thành công!');
-      navigate('/dashboard');
+      navigate('/monitors');
     } catch (error) {
       const message = error.response?.data?.message || 'Có lỗi xảy ra, vui lòng thử lại';
       toast.error(message);
