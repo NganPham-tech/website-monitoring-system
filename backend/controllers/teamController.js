@@ -15,9 +15,9 @@
 
 const teamService = require('../services/teamService');
 const {
-  inviteMemberSchema,
-  updateMemberSchema,
-  updatePermissionsSchema,
+    inviteMemberSchema,
+    updateMemberSchema,
+    updatePermissionsSchema,
 } = require('../schemas/teamValidations');
 
 // ─── GET /api/team/members ────────────────────────────────────────────────────
@@ -26,8 +26,8 @@ const {
  * Data isolation: Chỉ trả kết quả trong org đã được xác định bởi checkPermission.
  */
 const getMembers = async (req, res) => {
-  const members = await teamService.getMembers(req.organization._id);
-  res.status(200).json({ success: true, data: members });
+    const members = await teamService.getMembers(req.organization._id);
+    res.status(200).json({ success: true, data: members });
 };
 
 // ─── POST /api/team/invite ────────────────────────────────────────────────────
@@ -36,26 +36,26 @@ const getMembers = async (req, res) => {
  * Rule: email đã là thành viên hoặc đã có pending invite → 409 Conflict.
  */
 const inviteMember = async (req, res) => {
-  const { email, role } = inviteMemberSchema.parse(req.body);
+    const { email, role } = inviteMemberSchema.parse(req.body);
 
-  const invite = await teamService.inviteMember(
-    req.organization._id,
-    req.user.id,
-    email,
-    role
-  );
+    const invite = await teamService.inviteMember(
+        req.organization._id,
+        req.user.id,
+        email,
+        role
+    );
 
-  res.status(201).json({
-    success: true,
-    message: 'Đã gửi lời mời thành công',
-    data: {
-      id: invite._id,
-      invitedEmail: invite.invitedEmail,
-      role: invite.role,
-      status: invite.status,
-      expiresAt: invite.expiresAt,
-    },
-  });
+    res.status(201).json({
+        success: true,
+        message: 'Đã gửi lời mời thành công',
+        data: {
+            id: invite._id,
+            invitedEmail: invite.invitedEmail,
+            role: invite.role,
+            status: invite.status,
+            expiresAt: invite.expiresAt,
+        },
+    });
 };
 
 // ─── PUT /api/team/members/:id ────────────────────────────────────────────────
@@ -64,18 +64,18 @@ const inviteMember = async (req, res) => {
  * Không cho phép hạ cấp Owner.
  */
 const updateMember = async (req, res) => {
-  const { role } = updateMemberSchema.parse(req.body);
+    const { role } = updateMemberSchema.parse(req.body);
 
-  await teamService.updateMember(
-    req.organization._id,
-    req.params.id,
-    role
-  );
+    await teamService.updateMember(
+        req.organization._id,
+        req.params.id,
+        role
+    );
 
-  res.status(200).json({
-    success: true,
-    message: 'Đã cập nhật vai trò thành viên',
-  });
+    res.status(200).json({
+        success: true,
+        message: 'Đã cập nhật vai trò thành viên',
+    });
 };
 
 // ─── DELETE /api/team/members/:id ─────────────────────────────────────────────
@@ -84,16 +84,16 @@ const updateMember = async (req, res) => {
  * Không cho phép xóa Owner, hoặc tự xóa chính mình.
  */
 const removeMember = async (req, res) => {
-  await teamService.removeMember(
-    req.organization._id,
-    req.params.id,
-    req.user.id
-  );
+    await teamService.removeMember(
+        req.organization._id,
+        req.params.id,
+        req.user.id
+    );
 
-  res.status(200).json({
-    success: true,
-    message: 'Đã xóa thành viên khỏi team',
-  });
+    res.status(200).json({
+        success: true,
+        message: 'Đã xóa thành viên khỏi team',
+    });
 };
 
 // ─── GET /api/team/stats ──────────────────────────────────────────────────────
@@ -102,8 +102,8 @@ const removeMember = async (req, res) => {
  *   totalMembers, managers, members, pendingInvites
  */
 const getStats = async (req, res) => {
-  const stats = await teamService.getStats(req.organization._id);
-  res.status(200).json({ success: true, data: stats });
+    const stats = await teamService.getStats(req.organization._id);
+    res.status(200).json({ success: true, data: stats });
 };
 
 // ─── GET /api/team/permissions ────────────────────────────────────────────────
@@ -112,8 +112,8 @@ const getStats = async (req, res) => {
  * Format: { owner: { monitor: true, ... }, admin: {...}, member: {...} }
  */
 const getPermissions = async (req, res) => {
-  const matrix = await teamService.getPermissions(req.organization._id);
-  res.status(200).json({ success: true, data: matrix });
+    const matrix = await teamService.getPermissions(req.organization._id);
+    res.status(200).json({ success: true, data: matrix });
 };
 
 // ─── PATCH /api/team/permissions ──────────────────────────────────────────────
@@ -126,22 +126,22 @@ const getPermissions = async (req, res) => {
  *   { "admin": { "reports": false }, "member": { "monitor": true, "team": true } }
  */
 const updatePermissions = async (req, res) => {
-  const matrix = updatePermissionsSchema.parse(req.body);
+    const matrix = updatePermissionsSchema.parse(req.body);
 
-  await teamService.updatePermissions(req.organization._id, matrix);
+    await teamService.updatePermissions(req.organization._id, matrix);
 
-  res.status(200).json({
-    success: true,
-    message: 'Đã cập nhật ma trận phân quyền',
-  });
+    res.status(200).json({
+        success: true,
+        message: 'Đã cập nhật ma trận phân quyền',
+    });
 };
 
 module.exports = {
-  getMembers,
-  inviteMember,
-  updateMember,
-  removeMember,
-  getStats,
-  getPermissions,
-  updatePermissions,
+    getMembers,
+    inviteMember,
+    updateMember,
+    removeMember,
+    getStats,
+    getPermissions,
+    updatePermissions,
 };

@@ -28,13 +28,13 @@ const router = express.Router();
 const authMiddleware = require('../middlewares/authMiddleware');
 const checkPermission = require('../middlewares/checkPermission');
 const {
-  getMembers,
-  inviteMember,
-  updateMember,
-  removeMember,
-  getStats,
-  getPermissions,
-  updatePermissions,
+    getMembers,
+    inviteMember,
+    updateMember,
+    removeMember,
+    getStats,
+    getPermissions,
+    updatePermissions,
 } = require('../controllers/teamController');
 
 // ── Áp dụng auth cho toàn bộ router ──────────────────────────────────────────
