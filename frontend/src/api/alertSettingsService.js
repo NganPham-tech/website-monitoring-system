@@ -8,8 +8,8 @@ const alertSettingsService = {
       const response = await apiClient.get('/alert-rules');
       return response.data;
     } catch (error) {
-      if (error.response?.status === 404) {
-        // Return default structure if endpoint is not built yet
+      if (error.response?.status === 404 || error.response?.status === 401 || error.response?.status === 403 || error) {
+        // Return default structure if endpoint is not built yet or user not logged in
          return {
             triggers: {
               websiteDown: true,
@@ -47,7 +47,7 @@ const alertSettingsService = {
         const response = await apiClient.put('/alert-rules', payload);
         return response.data;
     } catch(error) {
-        if (error.response?.status === 404) {
+        if (error.response?.status === 404 || error.response?.status === 401 || error.response?.status === 403 || error) {
             return new Promise((resolve) => setTimeout(() => resolve(payload), 800));
         }
         throw error;
