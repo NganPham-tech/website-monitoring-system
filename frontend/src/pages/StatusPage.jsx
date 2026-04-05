@@ -1,171 +1,151 @@
-import React, { useState } from 'react';
-import { CheckCircle, AlertTriangle, Info, Bell } from 'lucide-react';
-
-// Generates 90 days of squares (mostly green, occasional red)
-const generateGridDays = (serviceName) => {
-  return Array.from({ length: 90 }).map((_, i) => {
-    // Just mock some random downtime for realism
-    const isOutage = Math.random() > 0.95 && serviceName !== 'Blog Website';
-    return {
-      date: new Date(Date.now() - (90 - i) * 86400000).toLocaleDateString('vi-VN'),
-      status: isOutage ? 'down' : 'up',
-      uptime: isOutage ? '98.5%' : '100%'
-    };
-  });
-};
-
-const services = [
-  { id: 1, name: 'API Server', uptimeStr: '99.98%', grid: generateGridDays('API Server') },
-  { id: 2, name: 'Database Server', uptimeStr: '99.99%', grid: generateGridDays('Database Server') },
-  { id: 3, name: 'Blog Website', uptimeStr: '100.00%', grid: generateGridDays('Blog Website') },
-  { id: 4, name: 'Background Workers', uptimeStr: '99.95%', grid: generateGridDays('Background Workers') }
-];
-
-const incidents = [
-  {
-    id: 1,
-    date: '15 Tháng 03, 2026',
-    title: 'Đã khắc phục vấn đề khiến API phản hồi chậm',
-    status: 'resolved',
-    updates: [
-      { time: '14:30', text: 'Hệ thống đã hoạt động ổn định trở lại. Chúng tôi sẽ tiếp tục theo dõi chặt chẽ.' },
-      { time: '13:15', text: 'Chúng tôi đang điều tra nguyên nhân gây ra tình trạng thắt nút cổ chai ở hệ thống Load Balancer Châu Á.' }
-    ]
-  },
-  {
-    id: 2,
-    date: '02 Tháng 03, 2026',
-    title: 'Bảo trì Database Cluster định kỳ',
-    status: 'completed',
-    updates: [
-      { time: '04:00', text: 'Quá trình nâng cấp phiên bản và tối ưu hoá Index đã hoàn tất.' },
-      { time: '02:00', text: 'Bắt đầu quá trình bảo trì. Một số dịch vụ có thể gián đoạn nhẹ.' }
-    ]
-  }
-];
+import React, { useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import statusPageService from '../api/statusPageService';
+import StatusHeader from '../components/StatusPage/StatusHeader';
+import OverallStatusBanner from '../components/StatusPage/OverallStatusBanner';
+import ServiceUptimeItem from '../components/StatusPage/ServiceUptimeItem';
+import IncidentTimeline from '../components/StatusPage/IncidentTimeline';
+import SubscribeForm from '../components/StatusPage/SubscribeForm';
+import { toast } from 'react-toastify';
+import { Loader2 } from 'lucide-react';
 
 const StatusPage = () => {
-  const [showSubscribe, setShowSubscribe] = useState(false);
+  // Use React Query with 1-minute polling as requested
+  const { 
+    data, 
+    isLoading, 
+    isError, 
+    refetch,
+    isRefetching 
+  } = useQuery({
+    queryKey: ['statusPageSummary'],
+    queryFn: statusPageService.getSummary,
+    refetchInterval: 60000, // 1 minute polling
+    staleTime: 30000,
+    retry: 3,
+  });
+
+  // Example mock data in case API returns empty or for dev
+  const mockSummary = {
+    systemStatus: 'operational',
+    services: [
+      {
+        id: '1',
+        name: 'Webside chính',
+        status: 'operational',
+        avgUptime: '100',
+        uptimeData: Array.from({ length: 60 }, (_, i) => ({
+          date: new Date(Date.now() - (59 - i) * 24 * 60 * 60 * 1000).toISOString(),
+          uptime: 100,
+          status: 1
+        }))
+      },
+      {
+        id: '2',
+        name: 'API Server',
+        status: 'operational',
+        avgUptime: '99.9',
+        uptimeData: Array.from({ length: 60 }, (_, i) => ({
+          date: new Date(Date.now() - (59 - i) * 24 * 60 * 60 * 1000).toISOString(),
+          uptime: (i === 15 || i === 45) ? 95 : 100,
+          status: (i === 15 || i === 45) ? 2 : 1
+        }))
+      },
+      {
+        id: '3',
+        name: 'Blog Webside',
+        status: 'partial_outage',
+        avgUptime: '98.5',
+        uptimeData: Array.from({ length: 60 }, (_, i) => ({
+          date: new Date(Date.now() - (59 - i) * 24 * 60 * 60 * 1000).toISOString(),
+          uptime: (i > 55) ? 0 : 100,
+          status: (i > 55) ? 3 : 1
+        }))
+      },
+      {
+        id: '4',
+        name: 'Database Server',
+        status: 'operational',
+        avgUptime: '100',
+        uptimeData: Array.from({ length: 60 }, (_, i) => ({
+          date: new Date(Date.now() - (59 - i) * 24 * 60 * 60 * 1000).toISOString(),
+          uptime: 100,
+          status: 1
+        }))
+      },
+    ],
+    incidents: [
+      {
+        id: '101',
+        title: 'Blog Webside không thể truy cập',
+        description: 'Chúng tôi đang điều tra sự cố khiến Blog Webside không thể truy cập. Đội ngũ kỹ thuật đã được triển khai để khắc phục.',
+        status: 'investigating',
+        createdAt: new Date(Date.now() - 3600000).toISOString()
+      },
+      {
+        id: '102',
+        title: 'Webside chính phản hồi bình thường',
+        description: 'Webside chính đã hoạt động bình thường trở lại sau 15 phút gián đoạn nhẹ. Chúng tôi tiếp tục theo dõi hiệu suất hệ thống.',
+        status: 'resolved',
+        createdAt: new Date(Date.now() - 172800000).toISOString()
+      },
+      {
+        id: '103',
+        title: 'API Server phản hồi chậm',
+        description: 'Đã khắc phục hoàn toàn vấn đề khiến API phản hồi chậm do tải cao đột biến từ một số truy vấn phức tạp.',
+        status: 'resolved',
+        createdAt: new Date(Date.now() - 259200000).toISOString()
+      }
+    ]
+  };
+
+  const currentData = data || mockSummary;
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-teal-50 flex flex-col items-center justify-center gap-4">
+        <Loader2 className="w-12 h-12 text-indigo-600 animate-spin" />
+        <p className="text-gray-500 font-['Inter']">Đang tải trạng thái hệ thống...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-slate-50 font-inter py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        
-        {/* Header */}
-        <div className="flex justify-between items-center mb-10">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-teal-500 rounded flex items-center justify-center text-white text-xl font-bold border-2 border-teal-600 shadow-sm">
-              U
-            </div>
-            <h1 className="text-2xl font-bold text-slate-800">Uptime Status</h1>
-          </div>
-          <button 
-            onClick={() => setShowSubscribe(true)}
-            className="flex items-center gap-2 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-4 py-2 rounded-md font-semibold transition border border-indigo-200 shadow-sm"
-          >
-            <Bell className="w-4 h-4" /> NHẬN THÔNG BÁO CẬP NHẬT
-          </button>
-        </div>
-
-        {/* Global Banner */}
-        <div className="bg-emerald-500 rounded-lg p-6 shadow-md mb-10 flex items-center gap-4 text-white">
-          <CheckCircle className="w-10 h-10 flex-shrink-0" />
-          <div>
-            <h2 className="text-2xl font-bold">Tất cả hệ thống hoạt động bình thường</h2>
-            <p className="opacity-90 mt-1">Cập nhật lần cuối: 2 phút trước</p>
-          </div>
-        </div>
-
-        {/* Uptime Grid Modules */}
-        <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8 mb-10">
-          <h3 className="text-xl font-bold text-slate-800 mb-6">Uptime theo Dịch vụ (90 Ngày)</h3>
-          
-          <div className="space-y-8">
-            {services.map(svc => (
-              <div key={svc.id}>
-                <div className="flex justify-between items-end mb-3">
-                  <span className="font-semibold text-slate-700 text-lg">{svc.name}</span>
-                  <span className="text-sm font-bold text-teal-600">{svc.uptimeStr} Uptime</span>
-                </div>
-                {/* 90-day Grid Blocks */}
-                <div className="flex gap-[2px] h-10">
-                  {svc.grid.map((day, idx) => (
-                    <div 
-                      key={idx} 
-                      title={`${day.date} - ${day.uptime}`}
-                      className={`flex-1 rounded-sm cursor-pointer hover:opacity-75 transition ${day.status === 'down' ? 'bg-red-400' : 'bg-emerald-400'}`}
-                    ></div>
-                  ))}
-                </div>
-                <div className="flex justify-between text-xs text-slate-400 mt-2 font-medium">
-                  <span>90 ngày trước</span>
-                  <span>100% Uptime</span>
-                  <span>Hôm nay</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Recent Incidents */}
-        <div>
-          <h3 className="text-2xl font-bold text-slate-800 mb-6">Nhật ký Sự cố gần đây</h3>
-          <div className="space-y-8">
-            {incidents.map(inc => (
-              <div key={inc.id} className="relative pl-8">
-                {/* Timeline Line */}
-                <div className="absolute left-[11px] top-8 bottom-[-32px] w-0.5 bg-slate-200 last:hidden"></div>
-                
-                {/* Timeline Dot */}
-                <div className={`absolute left-0 top-1.5 w-6 h-6 rounded-full flex items-center justify-center border-4 border-slate-50 ${inc.status === 'resolved' ? 'bg-emerald-500' : 'bg-indigo-500'}`}></div>
-
-                <div className="mb-1 text-slate-500 font-semibold">{inc.date}</div>
-                <h4 className="text-xl font-bold text-slate-800 mb-4">{inc.title}</h4>
-                
-                <div className="space-y-4">
-                  {inc.updates.map((upd, idx) => (
-                    <div key={idx} className="bg-white rounded-md p-4 shadow-sm border border-slate-100 flex gap-4">
-                      <div className="text-slate-400 font-medium whitespace-nowrap pt-0.5">{upd.time}</div>
-                      <div className="text-slate-700 leading-relaxed">{upd.text}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Subscribe Modal */}
-      {showSubscribe && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl w-full max-w-md p-8 relative animate-fade-in-scale">
-            <button 
-              onClick={() => setShowSubscribe(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600"
-            >
-              ✕
-            </button>
-            <h3 className="text-2xl font-bold text-slate-800 mb-2">Nhận thông báo cập nhật</h3>
-            <p className="text-slate-500 mb-6 text-sm">Nhập email của bạn để tự động nhận thông báo ngay khi có sự cố hạ tầng xảy ra.</p>
-            
-            <form onSubmit={(e) => { e.preventDefault(); alert("Đăng ký thành công!"); setShowSubscribe(false); }}>
-              <input 
-                type="email" 
-                required 
-                placeholder="email@example.com"
-                className="w-full px-4 py-3 border border-slate-200 rounded-lg mb-4 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition"
-              />
-              <button 
-                type="submit"
-                className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg transition"
-              >
-                Đăng Ký
-              </button>
-            </form>
-          </div>
+    <div className="min-h-screen bg-teal-50 pb-24 flex flex-col items-center">
+      {/* Real-time Indicator Overlay */}
+      {isRefetching && (
+        <div className="fixed top-4 right-4 z-50 flex items-center gap-2 bg-white/80 backdrop-blur px-3 py-1 rounded-full border border-indigo-100 shadow-sm transition-all duration-300">
+           <div className="w-2 h-2 bg-indigo-500 rounded-full animate-ping"></div>
+           <span className="text-[10px] text-indigo-900 font-medium">ĐANG CẬP NHẬT...</span>
         </div>
       )}
+
+      {/* Main Sections */}
+      <StatusHeader />
+      
+      <OverallStatusBanner status={currentData.systemStatus} />
+
+      <section className="w-full max-w-[1208px]">
+        <h2 className="text-xl font-normal text-black font-['Inter'] mb-6 pl-4 border-l-4 border-indigo-600">
+          Trạng thái dịch vụ
+        </h2>
+        {currentData.services.map((service) => (
+          <ServiceUptimeItem key={service.id} service={service} />
+        ))}
+      </section>
+
+      <IncidentTimeline incidents={currentData.incidents} />
+
+      <SubscribeForm />
+
+      <footer className="mt-20 text-gray-400 text-xs font-['Inter'] flex flex-col items-center gap-2">
+        <p>&copy; {new Date().getFullYear()} Uptime Monitor. Mọi quyền được bảo lưu.</p>
+        <div className="flex gap-4">
+            <a href="#" className="hover:text-indigo-600">Giới thiệu</a>
+            <a href="#" className="hover:text-indigo-600">Hỗ trợ</a>
+            <a href="#" className="hover:text-indigo-600">Twitter</a>
+        </div>
+      </footer>
     </div>
   );
 };

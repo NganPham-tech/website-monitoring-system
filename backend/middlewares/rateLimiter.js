@@ -35,8 +35,34 @@ const rateLimitMonitorList = rateLimit({
   legacyHeaders: false,
 });
 
+// Rate limit for public status page summary (60 requests / minute)
+const rateLimitStatusPage = rateLimit({
+  windowMs: 1 * 60 * 1000, 
+  max: 60,
+  message: {
+    success: false,
+    message: 'Hệ thống trạng thái đang tải cao, vui lòng thử lại sau 1 phút.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Rate limit for email subscription (3 requests / 10 minutes)
+const rateLimitStatusSubscribe = rateLimit({
+  windowMs: 10 * 60 * 1000, 
+  max: 3, 
+  message: {
+    success: false,
+    message: 'Bạn đã thử đăng ký quá nhiều lần. Vui lòng thử lại sau 10 phút.'
+  },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
 module.exports = {
   rateLimitLogin,
   rateLimitRegister,
-  rateLimitMonitorList
+  rateLimitMonitorList,
+  rateLimitStatusPage,
+  rateLimitStatusSubscribe
 };
