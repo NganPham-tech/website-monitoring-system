@@ -21,6 +21,8 @@ import AnalyticsReport from './pages/AnalyticsReport';
 import TeamPage from './pages/TeamPage';
 import InfrastructureDashboard from './pages/InfrastructureDashboard';
 import AlertHistoryPage from './pages/AlertHistoryPage';
+import ScheduledMaintenance from './pages/ScheduledMaintenance';
+
 function App() {
   return (
     <AuthProvider>
@@ -52,6 +54,7 @@ function App() {
           <Route path="/incidents/:id" element={<IncidentDetail />} />
           <Route path="/alerts" element={<AlertHistoryPage />} />
           <Route path="/reports" element={<AnalyticsReport />} />
+          <Route path="/maintenance" element={<ScheduledMaintenance />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/infrastructure" element={<InfrastructureDashboard />} />
           <Route path="/settings" element={<ProfilePage />} />
