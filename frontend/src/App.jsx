@@ -22,6 +22,7 @@ import TeamPage from './pages/TeamPage';
 import InfrastructureDashboard from './pages/InfrastructureDashboard';
 import AlertHistoryPage from './pages/AlertHistoryPage';
 import ScheduledMaintenance from './pages/ScheduledMaintenance';
+import IntegrationsPage from './pages/IntegrationsPage';
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
           <Route path="/alerts" element={<AlertHistoryPage />} />
           <Route path="/reports" element={<AnalyticsReport />} />
           <Route path="/maintenance" element={<ScheduledMaintenance />} />
+          <Route path="/integrations" element={<IntegrationsPage />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/infrastructure" element={<InfrastructureDashboard />} />
           <Route path="/settings" element={<ProfilePage />} />
