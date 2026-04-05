@@ -21,6 +21,7 @@ const teamRoutes = require('./routes/teamRoutes');
 const infraRoutes = require('./routes/infraRoutes');
 const alertRoutes = require('./routes/alertRoutes');
 const maintenanceRoutes = require('./routes/maintenanceRoutes');
+const integrationRoutes = require('./routes/integrationRoutes');
 
 const app = express();
 
@@ -56,6 +57,7 @@ app.use('/api/team', teamRoutes);
 app.use('/api/infrastructure', infraRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/maintenances', maintenanceRoutes);
+app.use('/api/integrations', integrationRoutes);
 
 // Fallback 404 Route
 app.use((req, res, next) => {
