@@ -22,6 +22,7 @@ const infraRoutes = require('./routes/infraRoutes');
 
 const statusPageRoutes = require('./routes/statusPageRoutes');
 const alertRoutes = require('./routes/alertRoutes');
+const alertRuleRoutes = require('./routes/alertRuleRoutes');
 const maintenanceRoutes = require('./routes/maintenanceRoutes');
 const integrationRoutes = require('./routes/integrationRoutes');
 
@@ -62,6 +63,7 @@ app.use('/api/infrastructure', infraRoutes);
 app.use('/api/status-page', statusPageRoutes);
 
 app.use('/api/alerts', alertRoutes);
+app.use('/api/alert-rules', alertRuleRoutes);
 app.use('/api/maintenances', maintenanceRoutes);
 app.use('/api/integrations', integrationRoutes);
 
