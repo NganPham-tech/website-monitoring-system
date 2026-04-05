@@ -23,6 +23,7 @@ import InfrastructureDashboard from './pages/InfrastructureDashboard';
 import AlertHistoryPage from './pages/AlertHistoryPage';
 import ScheduledMaintenance from './pages/ScheduledMaintenance';
 import IntegrationsPage from './pages/IntegrationsPage';
+import AlertSettings from './pages/admin/AlertSettings';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/incidents/:id" element={<IncidentDetail />} />
           <Route path="/alerts" element={<AlertHistoryPage />} />
+          <Route path="/alerts/settings" element={<AlertSettings />} />
           <Route path="/reports" element={<AnalyticsReport />} />
           <Route path="/maintenance" element={<ScheduledMaintenance />} />
           <Route path="/integrations" element={<IntegrationsPage />} />
