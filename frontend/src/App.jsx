@@ -20,6 +20,10 @@ import BusinessDashboard from './pages/admin/BusinessDashboard';
 import AnalyticsReport from './pages/AnalyticsReport';
 import TeamPage from './pages/TeamPage';
 import InfrastructureDashboard from './pages/InfrastructureDashboard';
+import AlertHistoryPage from './pages/AlertHistoryPage';
+import ScheduledMaintenance from './pages/ScheduledMaintenance';
+import IntegrationsPage from './pages/IntegrationsPage';
+
 function App() {
   return (
     <AuthProvider>
@@ -49,8 +53,10 @@ function App() {
           {/* Các trang khác của Dashboard có thể thêm vào đây */}
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/incidents/:id" element={<IncidentDetail />} />
-          <Route path="/alerts" element={<div className="p-10 text-center text-4xl font-bold text-[#00796B]">Trang Cảnh báo</div>} />
+          <Route path="/alerts" element={<AlertHistoryPage />} />
           <Route path="/reports" element={<AnalyticsReport />} />
+          <Route path="/maintenance" element={<ScheduledMaintenance />} />
+          <Route path="/integrations" element={<IntegrationsPage />} />
           <Route path="/team" element={<TeamPage />} />
           <Route path="/infrastructure" element={<InfrastructureDashboard />} />
           <Route path="/settings" element={<ProfilePage />} />
