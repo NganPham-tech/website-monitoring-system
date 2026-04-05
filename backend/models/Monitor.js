@@ -91,6 +91,11 @@ const monitorSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isPublic: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
   },
   {
     timestamps: true,
@@ -101,6 +106,7 @@ const monitorSchema = new mongoose.Schema(
 monitorSchema.index({ name: 'text', url: 'text' });
 monitorSchema.index({ userId: 1, status: 1 });
 monitorSchema.index({ userId: 1, protocol: 1 });
+monitorSchema.index({ isPublic: 1, status: 1 });
 
 const Monitor = mongoose.model('Monitor', monitorSchema);
 module.exports = Monitor;
