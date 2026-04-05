@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tích hợp - Uptime</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+    <div style="width: 2359px; height: 1391px; position: relative; background: #F0FDFA; overflow: hidden">
+        <div
+            style="width: 1569px; height: 378px; left: 655px; top: 453px; position: absolute; background: white; border: 8px #E5E7EB solid">
+        </div>
+        <div
+            style="left: 1048px; top: 708px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 15px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Kết nối</div>
+        <div style="width: 1503px; height: 41px; left: 676px; top: 577px; position: absolute; background: #F5F7FA">
+        </div>
+        <div
+            style="left: 698px; top: 586px; position: absolute; color: black; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Trạng thái</div>
+        <div style="width: 1501px; height: 29px; left: 668px; top: 702px; position: absolute; background: #0F6EC0">
+        </div>
+        <div
+            style="left: 942.50px; top: 679.50px; position: absolute; color: white; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Kết nối</div>
+        <div style="width: 100px; height: 100px; left: 772.50px; top: 523.50px; position: absolute; overflow: hidden">
+            <div
+                style="left: 80px; top: 43px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+                T</div>
+        </div>
+        <div
+            style="left: 690px; top: 540px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #B3B3B3; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Gửi cảnh báo đến webhook. URL tùy chỉnh.<br />Hỗ trợ JSON payload với đầy đủ thông tin sự cố.</div>
+        <div style="width: 115px; height: 21px; left: 751px; top: 490px; position: absolute; background: #F8D7DA"></div>
+        <div
+            style="left: 751px; top: 461px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 24px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Webhook</div>
+        <div style="width: 63px; height: 65px; left: 682px; top: 468px; position: absolute; background: #F8D7DA"></div>
+        <div
+            style="left: 771px; top: 493px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #F5576C; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Chưa kết nối</div>
+        <div
+            style="width: 353px; height: 305px; left: 292.50px; top: 422.50px; position: absolute; background: white; border: 8px #E5E7EB solid">
+        </div>
+        <div style="width: 320px; height: 37px; left: 305.50px; top: 586.50px; position: absolute; background: #F5F7FA">
+        </div>
+        <div
+            style="left: 308.50px; top: 597.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Giá:</div>
+        <div style="width: 92px; height: 19px; left: 378.50px; top: 467.50px; position: absolute; background: #F8D7DA">
+        </div>
+        <div
+            style="width: 81px; left: 385.50px; top: 469.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #DC3545; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Chưa kết nối</div>
+        <div style="width: 323px; height: 27px; left: 305.50px; top: 673.50px; position: absolute; background: #0F6EC0">
+        </div>
+        <div style="width: 320px; height: 36px; left: 305.50px; top: 544.50px; position: absolute; background: #F5F7FA">
+        </div>
+        <div
+            style="left: 308.50px; top: 554.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Trạng thái:</div>
+        <div
+            style="width: 320px; left: 305.50px; top: 506.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #B3B3B3; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Nhận cảnh báo qua tin nhắn SMS cho các sự<br />cố nghiêm trọng. Tính phí theo tin nhắn</div>
+        <div
+            style="left: 378.50px; top: 435.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 24px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            SMS</div>
+        <div style="width: 61px; height: 58px; left: 308.50px; top: 436.50px; position: absolute; background: #DCFCE7">
+        </div>
+        <div
+            style="width: 831px; height: 302px; left: 1374px; top: 116px; position: absolute; background: white; border-radius: 1px; border: 8px #E5E7EB solid">
+        </div>
+        <div
+            style="left: 1397px; top: 274px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 11px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Trạng thái</div>
+        <div
+            style="left: 1462px; top: 185px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #DC3545; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Chưa kết nối</div>
+        <div
+            style="left: 1599px; top: 396px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 11px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Kết nối</div>
+        <div style="width: 794px; height: 33px; left: 1392px; top: 363px; position: absolute; background: #5D8ADD">
+        </div>
+        <div
+            style="left: 1796px; top: 372px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: white; font-size: 16px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Kết nối</div>
+        <div style="width: 739px; height: 25px; left: 1389px; top: 266px; position: absolute; background: #F5F7FA">
+        </div>
+        <div
+            style="left: 1389px; top: 227px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #B3B3B3; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Tích hợp với Slackwordspace. <br />Gửi thông báo vào channel hoặc DM cụ thể.</div>
+        <div
+            style="width: 91px; height: 18px; left: 1457px; top: 184px; position: absolute; background: #F8D7DA; border-radius: 8px">
+        </div>
+        <div
+            style="left: 1454px; top: 155px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 24px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Slack</div>
+        <div style="width: 60px; height: 63px; left: 1389px; top: 155px; position: absolute; background: #F8D7DA"></div>
+        <div
+            style="width: 388px; height: 302px; left: 993.50px; top: 115.50px; position: absolute; background: white; border: 8px #E5E7EB solid">
+        </div>
+        <div style="width: 337px; height: 31px; left: 1012px; top: 363px; position: absolute; background: #5D8ADD">
+        </div>
+        <div style="width: 343px; height: 25px; left: 1009px; top: 257px; position: absolute; background: #F5F7FA">
+        </div>
+        <div
+            style="left: 1009px; top: 218px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #B3B3B3; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Gửi cảnh báo vào Discord channel quaWebnook.<br />Hỗ trợ rich embed với màu sắc và biểu tượng.</div>
+        <div
+            style="left: 1069px; top: 158px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 24px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Discord</div>
+        <div style="width: 55px; height: 58px; left: 1009px; top: 157px; position: absolute; background: #EDE9FE"></div>
+        <div
+            style="left: 1016px; top: 264px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 10px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Trạng thái</div>
+        <div style="width: 88px; height: 18px; left: 1072px; top: 190px; position: absolute; background: #FEE2E2"></div>
+        <div
+            style="left: 1077px; top: 191px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #DC3545; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Chưa kết nối</div>
+        <div
+            style="width: 353px; height: 302px; left: 645.50px; top: 115.50px; position: absolute; background: white; border: 8px #E5E7EB solid">
+        </div>
+        <div
+            style="left: 799.50px; top: 372.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Cấu hình</div>
+        <div
+            style="left: 662.50px; top: 291.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 10px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Số cảnh báo đã gửi:</div>
+        <div style="width: 325px; height: 20px; left: 654.50px; top: 258.50px; position: absolute; background: #F5F7FA">
+        </div>
+        <div
+            style="left: 662.50px; top: 258.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 10px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Chat ID:</div>
+        <div style="width: 317px; height: 31px; left: 662.50px; top: 362.50px; position: absolute; background: #CBD5E0">
+        </div>
+        <div style="width: 326px; height: 31px; left: 654.50px; top: 279.50px; position: absolute; background: #F5F7FA">
+        </div>
+        <div style="width: 325px; height: 26px; left: 655.50px; top: 230.50px; position: absolute; background: #F5F7FA">
+        </div>
+        <div
+            style="left: 673.50px; top: 194.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #B3B3B3; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Nhân thông báo tức thì qua Telegram Bot.<br />Hỗ trợ gửi đến nhóm hoặc kênh</div>
+        <div style="width: 110px; height: 17px; left: 747.50px; top: 165.50px; position: absolute; background: #DCFCE7">
+        </div>
+        <div
+            style="left: 747.50px; top: 134.50px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Telegram</div>
+        <div style="width: 58px; height: 57px; left: 676.50px; top: 131.50px; position: absolute; background: #DBEAFE">
+        </div>
+        <div
+            style="left: 662.50px; top: 238.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 10px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Bot Token:</div>
+        <div
+            style="left: 756.50px; top: 167.50px; position: absolute; color: #29AD47; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Đang kích hoạt</div>
+        <div style="width: 7px; height: 15px; left: 702.50px; top: 149.50px; position: absolute; background: black">
+        </div>
+        <div
+            style="left: 455.50px; top: 370.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Cấu hình</div>
+        <div
+            style="width: 353px; height: 302px; left: 292.50px; top: 115.50px; position: absolute; background: white; border: 8px #E5E7EB solid">
+        </div>
+        <div
+            style="width: 353px; height: 302px; left: 292.50px; top: 115.50px; position: absolute; background: white; border: 8px #E5E7EB solid">
+        </div>
+        <div
+            style="left: 315.50px; top: 272.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 10px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Số cảnh báo đã gửi:</div>
+        <div
+            style="left: 315.50px; top: 241.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 10px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Địa chỉ email:</div>
+        <div
+            style="left: 378.50px; top: 167.50px; position: absolute; color: #29AD47; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Đang kích hoạt</div>
+        <div style="width: 100px; height: 18px; left: 372.50px; top: 164.50px; position: absolute; background: #DCFCE7">
+        </div>
+        <div style="width: 100px; height: 18px; left: 372.50px; top: 164.50px; position: absolute; background: #DCFCE7">
+        </div>
+        <div
+            style="left: 378.50px; top: 167.50px; position: absolute; color: #29AD47; font-size: 12px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Đang kích hoạt</div>
+        <div style="width: 58px; height: 57px; left: 308.50px; top: 135.50px; position: absolute; background: #FEF3C7">
+        </div>
+        <div style="width: 58px; height: 57px; left: 308.50px; top: 135.50px; position: absolute; background: #FEF3C7">
+        </div>
+        <div style="width: 313px; height: 31px; left: 312.50px; top: 362.50px; position: absolute; background: #CBD5E0">
+        </div>
+        <div style="width: 329px; height: 31px; left: 309.50px; top: 262.50px; position: absolute; background: #F5F7FA">
+        </div>
+        <div style="width: 329px; height: 43px; left: 309.50px; top: 230.50px; position: absolute; background: #F5F7FA">
+        </div>
+        <div
+            style="width: 157px; height: 46px; left: 460.50px; top: 194.50px; position: absolute; background: rgba(13, 148, 136, 0.60); overflow: hidden; border-radius: 10px; outline: 1px #14B8A6 solid; outline-offset: -1px">
+            <div
+                style="left: 32px; top: 9px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #334155; font-size: 24px; font-family: Inter; font-weight: 600; line-height: 28.80px; word-wrap: break-word">
+                30 ngày</div>
+        </div>
+        <div
+            style="left: 308.50px; top: 196.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #B3B3B3; font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Nhận cảnh báo trực tiếp qua Email.<br />Hỗ trợ nhiều địa chỉ email và tùy chỉnh nội dung</div>
+        <div
+            style="left: 372.50px; top: 135.50px; position: absolute; color: black; font-size: 24px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+            Email</div>
+        <div style="left: 291.50px; top: 13.50px; position: absolute"><span
+                style="color: black; font-size: 32px; font-family: Inter; font-weight: 700; word-wrap: break-word">Tích
+                hợp<br /></span><span
+                style="color: black; font-size: 24px; font-family: Inter; font-weight: 400; word-wrap: break-word">Kết
+                nối
+                Uptime Monitor với các dịch vụ thông báo</span></div>
+        <div
+            style="width: 260px; height: 1355px; left: -10px; top: -84px; position: absolute; background: rgba(255, 255, 255, 0.95)">
+        </div>
+        <div
+            style="left: 78px; top: 818px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Admin</div>
+        <div
+            style="left: 74px; top: 760px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Cài đặt</div>
+        <div
+            style="left: 74px; top: 687px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Steam</div>
+        <div
+            style="left: 54px; top: 629px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Status Page</div>
+        <div style="width: 165px; height: 44px; left: 20px; top: 545px; position: absolute; overflow: hidden">
+            <div
+                style="left: 48px; top: 20px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+                Tích hợp<br /></div>
+        </div>
+        <div
+            style="left: 71px; top: 489px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Báo cáo<br /></div>
+        <div style="width: 165px; height: 44px; left: 20px; top: 452px; position: absolute"></div>
+        <div
+            style="left: 78px; top: 423px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #334155; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Sự cố</div>
+        <div
+            style="left: 65px; top: 362px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Cảnh báo<br /></div>
+        <div
+            style="left: 27px; top: 293px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            + Thêm Monitor<br /></div>
+        <div
+            style="width: 165px; height: 34px; left: 36px; top: 231px; position: absolute; box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); overflow: hidden">
+            <div
+                style="left: 36px; top: 0px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #334155; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+                Monitor</div>
+        </div>
+        <div
+            style="left: 57px; top: 165px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: black; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+            Dashbroad<br /></div>
+        <div style="width: 162px; height: 29px; left: 44px; top: 168px; position: absolute; overflow: hidden">
+            <div
+                style="left: 42.50px; top: -19.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #334155; font-size: 20px; font-family: Inter; font-weight: 400; word-wrap: break-word">
+                Dashboard</div>
+        </div>
+        <div
+            style="width: 205px; height: 94px; left: 18px; top: 33px; position: absolute; background: rgba(13, 148, 136, 0.15); overflow: hidden; border-radius: 10px">
+            <div
+                style="left: 26.50px; top: 6.50px; position: absolute; justify-content: center; display: flex; flex-direction: column; color: #0D9488; font-size: 23.10px; font-family: Inter; font-weight: 700; word-wrap: break-word">
+                Uptime Monitor</div>
+        </div>
+    </div>
+</body>
+
+</html>
