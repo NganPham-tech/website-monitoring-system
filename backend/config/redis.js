@@ -1,24 +1,25 @@
-const Redis = require('ioredis');
+// const Redis = require('ioredis');
 const { logger } = require('../utils/logger');
+const memoryCache = require('../utils/memoryCache');
 
-// This is a simple wrapper, in production you'd use environment variables 
-// from your .env file like REDIS_URL
-const redisClient = new Redis({
-  host: process.env.REDIS_HOST || '127.0.0.1',
-  port: process.env.REDIS_PORT || 6379,
-  password: process.env.REDIS_PASSWORD || undefined,
-  retryStrategy: (times) => {
-    const delay = Math.min(times * 50, 2000);
-    return delay;
+// Mock Redis Client cho mục đích Demo (Thay thế Redis bằng Memory Cache)
+const redisClient = {
+  get: async (key) => {
+    return memoryCache.get(key);
   },
-});
-
-redisClient.on('connect', () => {
-  logger.info('Redis connection established');
-});
-
-redisClient.on('error', (err) => {
-  logger.error('Redis connection error:', err);
-});
+  setex: async (key, ttlSeconds, value) => {
+    // memoryCache dùng phút, setex dùng giây
+    memoryCache.set(key, value, ttlSeconds / 60);
+    return 'OK';
+  },
+  on: (event, callback) => {
+    if (event === 'connect') {
+      setTimeout(() => {
+        logger.info('Mock Redis (Memory Cache) initialized');
+        callback();
+      }, 0);
+    }
+  }
+};
 
 module.exports = redisClient;
