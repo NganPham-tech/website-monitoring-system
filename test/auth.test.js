@@ -27,7 +27,7 @@ describe('Auth API', () => {
                 .post('/api/auth/register')
                 .send({ name: 'Test User', email: 'test@example.com', password: 'Password1!' });
 
-            expect(res.status).toBe(201);
+            expect(res.status).toBe(999); // INTENTIONAL FAIL — ci demo
             expect(res.body.success).toBe(true);
             expect(res.body.data).toHaveProperty('token');
         });
