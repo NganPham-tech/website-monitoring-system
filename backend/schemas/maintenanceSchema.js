@@ -1,12 +1,14 @@
 const { z } = require('zod');
 
-exports.createMaintenanceSchema = z.object({
+const _baseSchema = z.object({
     title: z.string().min(1, "Vui lòng nhập tên bảo trì"),
     notes: z.string().optional(),
     startTime: z.string().refine(val => !isNaN(Date.parse(val)), "Định dạng thời gian không hợp lệ"),
     endTime: z.string().refine(val => !isNaN(Date.parse(val)), "Định dạng thời gian không hợp lệ"),
     monitors: z.array(z.string()).min(1, "Vui lòng chọn ít nhất 1 monitor chịu ảnh hưởng")
-}).refine(data => {
+});
+
+exports.createMaintenanceSchema = _baseSchema.refine(data => {
     return new Date(data.endTime) > new Date(data.startTime);
 }, {
     message: "Thời gian kết thúc phải lớn hơn thời gian bắt đầu",
@@ -21,4 +23,4 @@ exports.createMaintenanceSchema = z.object({
     path: ["startTime"]
 });
 
-exports.updateMaintenanceSchema = exports.createMaintenanceSchema.partial();
+exports.updateMaintenanceSchema = _baseSchema.partial();
