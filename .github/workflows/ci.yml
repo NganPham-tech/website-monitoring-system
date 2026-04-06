@@ -1,27 +1,67 @@
 name: CI
 
+# ══════════════════════════════════════════════════════════════════════════════
+# TOOL: GitHub Actions
+# Đây là file cấu hình CI (Continuous Integration) sử dụng GitHub Actions —
+# dịch vụ CI/CD tích hợp sẵn của GitHub, miễn phí cho public repo.
+# ══════════════════════════════════════════════════════════════════════════════
+
+# ── TRIGGER ──────────────────────────────────────────────────────────────────
+# Pipeline tự động chạy khi:
+#   • push code lên BẤT KỲ branch nào (để tích lũy lịch sử CI trên mọi branch)
+#   • mở hoặc cập nhật Pull Request nhắm vào nhánh main
 on:
   push:
     branches:
+      - '**'
+  pull_request:
+    branches:
       - main
 
+# ── JOBS ─────────────────────────────────────────────────────────────────────
+# Một pipeline gồm nhiều job chạy song song hoặc tuần tự.
+# Job "build" dưới đây bao gồm 3 giai đoạn: Install → Test (→ Deploy sau này).
 jobs:
   build:
+    # Môi trường chạy: máy ảo Ubuntu mới nhất do GitHub Actions cung cấp
+    # (ubuntu-latest = Ubuntu 22.04 tại thời điểm viết)
     runs-on: ubuntu-latest
 
     steps:
+      # ── STAGE 1: Checkout ──────────────────────────────────────────────────
+      # Tải toàn bộ source code của repo (kể cả submodules nếu có) về runner.
+      # Thư viện: actions/checkout@v4 (official GitHub action)
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # ── STAGE 2: Setup Runtime ─────────────────────────────────────────────
+      # Cài đặt Node.js v18 LTS trên runner.
+      # Thư viện: actions/setup-node@v4 (official GitHub action)
+      #   node-version: '18'  → Node.js 18.x (LTS, khớp với môi trường dev)
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
 
+      # ── STAGE 3: Install Dependencies ──────────────────────────────────────
+      # npm install cài toàn bộ dependencies từ backend/package.json, bao gồm:
+      #   devDependencies:
+      #     - jest@^29.7.0       → test runner
+      #     - supertest@^7.0.0   → HTTP assertion cho Express app
+      #   dependencies (runtime):
+      #     - express@^4.18.2, mongoose@^9.3.3, jsonwebtoken@^9.0.3, zod@^4.3.6 ...
       - name: Install backend dependencies
         working-directory: ./backend
         run: npm install
 
+      # ── STAGE 4: Run Tests ─────────────────────────────────────────────────
+      # Chạy toàn bộ Jest test suite (npm test = jest --forceExit).
+      # Cấu hình jest trong backend/package.json:
+      #   rootDir: ".."                         → project root
+      #   testMatch: ["<rootDir>/test/**/*.test.js"]
+      #   moduleNameMapper: ioredis → __mocks__/ioredis.js (mock Redis)
+      # Tất cả external services (MongoDB, Redis) đều được MOCK hoàn toàn
+      # → không cần infrastructure thật, pipeline chạy isolated.
       - name: Run tests
         working-directory: ./backend
         run: npm test
