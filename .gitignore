@@ -33,3 +33,10 @@ backend/.env
 # Frontend specific ignoring
 frontend/node_modules
 frontend/.env
+
+# Playwright E2E
+e2e/.auth/
+e2e/test-results/
+e2e/playwright-report/
+playwright-report/
+test-results/
