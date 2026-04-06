@@ -18,33 +18,33 @@ import fs from 'fs';
 const AUTH_FILE = path.join(__dirname, '.auth', 'user.json');
 
 setup('authenticate as default user', async ({ page }) => {
-  // Đảm bảo thư mục .auth/ tồn tại
-  const authDir = path.dirname(AUTH_FILE);
-  if (!fs.existsSync(authDir)) {
-    fs.mkdirSync(authDir, { recursive: true });
-  }
+    // Đảm bảo thư mục .auth/ tồn tại
+    const authDir = path.dirname(AUTH_FILE);
+    if (!fs.existsSync(authDir)) {
+        fs.mkdirSync(authDir, { recursive: true });
+    }
 
-  // ── Bước 1: Điều hướng tới trang đăng nhập ──────────────────────────────
-  await page.goto('/login');
-  await expect(page).toHaveURL(/\/login/);
+    // ── Bước 1: Điều hướng tới trang đăng nhập ──────────────────────────────
+    await page.goto('/login');
+    await expect(page).toHaveURL(/\/login/);
 
-  // ── Bước 2: Điền thông tin đăng nhập từ biến môi trường ─────────────────
-  // Cấu hình trong CI: thêm TEST_EMAIL và TEST_PASSWORD vào GitHub Secrets
-  const email    = process.env.TEST_EMAIL    ?? 'admin@example.com';
-  const password = process.env.TEST_PASSWORD ?? 'Admin@123456';
+    // ── Bước 2: Điền thông tin đăng nhập từ biến môi trường ─────────────────
+    // Cấu hình trong CI: thêm TEST_EMAIL và TEST_PASSWORD vào GitHub Secrets
+    const email = process.env.TEST_EMAIL ?? 'admin@example.com';
+    const password = process.env.TEST_PASSWORD ?? 'Admin@123456';
 
-  await page.locator('input[name="email"]').fill(email);
-  await page.locator('input[name="password"]').fill(password);
+    await page.locator('input[name="email"]').fill(email);
+    await page.locator('input[name="password"]').fill(password);
 
-  // ── Bước 3: Submit form ──────────────────────────────────────────────────
-  await page.locator('button[type="submit"]').click();
+    // ── Bước 3: Submit form ──────────────────────────────────────────────────
+    await page.locator('button[type="submit"]').click();
 
-  // ── Bước 4: Xác nhận đăng nhập thành công (redirect tới /monitors) ───────
-  await expect(page).toHaveURL(/\/monitors/, { timeout: 15_000 });
+    // ── Bước 4: Xác nhận đăng nhập thành công (redirect tới /monitors) ───────
+    await expect(page).toHaveURL(/\/monitors/, { timeout: 15_000 });
 
-  // ── Bước 5: Lưu toàn bộ cookies + localStorage vào file ─────────────────
-  // Playwright serialize context state → tái sử dụng trong các test khác
-  await page.context().storageState({ path: AUTH_FILE });
+    // ── Bước 5: Lưu toàn bộ cookies + localStorage vào file ─────────────────
+    // Playwright serialize context state → tái sử dụng trong các test khác
+    await page.context().storageState({ path: AUTH_FILE });
 
-  console.log(`✅ Global setup: Auth state saved to ${AUTH_FILE}`);
+    console.log(`✅ Global setup: Auth state saved to ${AUTH_FILE}`);
 });
