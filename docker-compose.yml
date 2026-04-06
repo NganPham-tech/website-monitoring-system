@@ -1,12 +1,35 @@
 version: '3.8'
 
 services:
+  mongodb:
+    image: mongo:6.0
+    container_name: monitor_mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    restart: always
+
   backend:
     build: ./backend
+    container_name: monitor_backend
     ports:
       - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongodb:27017/uptime_monitor_db
+      - PORT=5000
+    depends_on:
+      - mongodb
+    restart: always
 
   frontend:
     build: ./frontend
+    container_name: monitor_frontend
     ports:
       - "80:80"
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  mongo_data:
