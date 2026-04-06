@@ -5,7 +5,21 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "test": "jest --forceExit"
+  },
+  "jest": {
+    "rootDir": "..",
+    "testMatch": [
+      "<rootDir>/test/**/*.test.js"
+    ],
+    "testEnvironment": "node",
+    "modulePaths": [
+      "<rootDir>/backend/node_modules"
+    ],
+    "moduleNameMapper": {
+      "^ioredis$": "<rootDir>/test/__mocks__/ioredis.js"
+    }
   },
   "keywords": [],
   "author": "",
@@ -35,5 +49,9 @@
     "stripe": "^22.0.0",
     "winston": "^3.19.0",
     "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.2.2"
   }
 }

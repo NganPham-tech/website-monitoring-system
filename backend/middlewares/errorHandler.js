@@ -22,10 +22,11 @@ const errorHandler = (err, req, res, next) => {
     statusCode = err.statusCode;
   }
 
-  // Zod Validation Error
+  // Zod Validation Error (v4 uses .issues, v3 used .errors)
   if (err.name === 'ZodError') {
     statusCode = 400;
-    message = err.errors.map(e => e.message).join(', ');
+    const zodIssues = err.issues || err.errors || [];
+    message = zodIssues.map(e => e.message).join(', ');
   }
 
   // Token lỗi
