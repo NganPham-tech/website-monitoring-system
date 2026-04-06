@@ -31,7 +31,8 @@ const Register = () => {
     try {
       // payload chứa mọi thông tin của user và gói
       const payload = {
-        name: `${data.firstName} ${data.lastName}`,
+        firstName: data.firstName,
+        lastName: data.lastName,
         email: data.email,
         password: data.password,
         company: data.company,

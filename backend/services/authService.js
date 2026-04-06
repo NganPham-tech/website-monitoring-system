@@ -64,8 +64,11 @@ const handleSSOLogin = async (profile, provider) => {
     }
   } else {
     // Tạo user mới
+    const displayName = profile.displayName || email.split('@')[0];
+    const nameParts = displayName.split(' ');
     user = await User.create({
-      name: profile.displayName || email.split('@')[0],
+      firstName: nameParts[0] || 'User',
+      lastName: nameParts.slice(1).join(' ') || '.',
       email: email,
       authProvider: provider,
       providerId: profile.id,
@@ -81,7 +84,7 @@ const handleSSOLogin = async (profile, provider) => {
 /**
  * Xử lý Đăng ký tài khoản
  */
-const registerUser = async ({ name, email, password, company, plan }) => {
+const registerUser = async ({ firstName, lastName, email, password, company, plan }) => {
   // 1. Kiểm tra lặp email
   const existingUser = await User.findOne({ email });
   if (existingUser) {
@@ -96,7 +99,8 @@ const registerUser = async ({ name, email, password, company, plan }) => {
 
   // 3. Tạo User
   const newUser = await User.create({
-    name,
+    firstName,
+    lastName,
     email,
     password: hashedPassword,
     company: company || '',
